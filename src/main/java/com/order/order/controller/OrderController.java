@@ -1,11 +1,11 @@
 package com.order.order.controller;
 
-import com.order.order.config.service.OrderService;
 import com.order.order.model.Order;
+import com.order.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -15,14 +15,15 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping
-    public ResponseEntity<String> addOrder(@RequestBody Order order) {
-        orderService.addOrder(order);
-        return ResponseEntity.ok("Order added successfully");
+    @PostMapping("/place")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<String> placeOrder(@RequestBody Order order) {
+        return ResponseEntity.ok(orderService.placeOrder(order));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
+    @GetMapping("/get/{userId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<Order>> getUserOrders(@PathVariable Long userId) {
+        return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
     }
 }
