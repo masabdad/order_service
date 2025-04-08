@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class UserDtoServiceImpl {
     public UserDto getUserById(Long userId) {
         try {
-            return new RestTemplate().getForObject("http://localhost:8081/users/" + userId, UserDto.class);
+            return new RestTemplate().getForObject("http://localhost:8081/users/{id}" + userId, UserDto.class);
         } catch (Exception e) {
             throw new UserNotFoundException("User with ID " + userId + " not found.");
         }

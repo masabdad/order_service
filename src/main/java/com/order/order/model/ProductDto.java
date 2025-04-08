@@ -8,8 +8,8 @@ import lombok.Data;
 public class ProductDto {
     private Long id;
     private String name;
-    private int stock;
-    private double price;
+    private Double price;
+    private Integer quantityLeft;
 
 //    Getter Setter
 
@@ -30,19 +30,19 @@ public class ProductDto {
         this.name = name;
     }
 
-    public int getStock() {
-        return stock;
+    public Integer getStock() {
+        return quantityLeft;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setStock(Integer stock) {
+        this.quantityLeft = stock;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

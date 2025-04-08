@@ -35,7 +35,6 @@ public class OrderServiceImpl implements OrderService {
             if (product == null || product.getStock() < order.getQuantity()) {
                 throw new ProductNotFoundException("Product is not available in requested quantity");
             }
-
             orderDao.saveOrder(order);
             return "Order placed successfully!";
         } catch (UserNotFoundException | ProductNotFoundException e) {

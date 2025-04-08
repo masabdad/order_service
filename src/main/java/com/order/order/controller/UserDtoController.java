@@ -12,7 +12,7 @@ public class UserDtoController {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public UserDto getUserById(Long userId) {
-        ResponseEntity<UserDto> response = restTemplate.getForEntity("http://localhost:8081/users/" + userId, UserDto.class);
+        ResponseEntity<UserDto> response = restTemplate.getForEntity("http://localhost:8081/users/{id}" + userId, UserDto.class);
         return response.getBody();
     }
 }

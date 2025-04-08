@@ -2,9 +2,9 @@ package com.order.order.controller;
 
 import com.order.order.model.Order;
 import com.order.order.service.OrderService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -16,14 +16,14 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/place")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @RolesAllowed("client_user")
     public ResponseEntity<String> placeOrder(@RequestBody Order order) {
         return ResponseEntity.ok(orderService.placeOrder(order));
     }
 
     @GetMapping("/get/{userId}")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<Order>> getUserOrders(@PathVariable Long userId) {
+    @RolesAllowed("client_admin")
+    public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
     }
 }
