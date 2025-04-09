@@ -20,53 +20,41 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
 
     @Autowired
-    private UserDtoController userClientController;
+    private UserDtoController userDtoServiceImpl;
 
     @Autowired
-    private ProductDtoController productClientController;
+    private ProductDtoController productClientServiceImpl;
 
     @Override
     public String placeOrder(Order order) {
         try {
-            // Retrieve UserDto and check if the user exists
-            UserDto user = userClientController.getUserById(order.getUserId());
+            UserDto user = userDtoServiceImpl.getUserById(order.getUserId());
             if (user == null) {
                 throw new UserNotFoundException("User not found with ID: " + order.getUserId());
             }
-
-            // Retrieve ProductDto and check product availability
-            ProductDto product = productClientController.getProductById(order.getProductId());
+            ProductDto product = productClientServiceImpl.getProductById(order.getProductId());
             if (product == null || product.getStock() < order.getQuantity()) {
                 throw new ProductNotFoundException("Product is not available in requested quantity");
             }
-
-            // Check productId from productDto and userId from userDto (although they're already retrieved, we can directly use them here)
             if (!product.getId().equals(order.getProductId())) {
                 throw new ProductNotFoundException("Product mismatch for the order");
             }
-
             if (!user.getId().equals(order.getUserId())) {
                 throw new UserNotFoundException("User mismatch for the order");
             }
-
-            // Save the order
             orderDao.saveOrder(order);
-
             return "Order placed successfully!";
         } catch (UserNotFoundException | ProductNotFoundException e) {
-            // Rethrow specific exceptions for user/product not found
             throw e;
         } catch (Exception e) {
-            // Catch other exceptions and throw a generic exception
-            throw new ProductNotFoundException("Failed to place order: " + e.getMessage());
+            throw new RuntimeException("Failed to place order: " + e.getMessage());
         }
     }
-
 
     @Override
     public List<Order> getOrdersByUserId(Long userId) {
         try {
-            UserDto user = userClientController.getUserById(userId);
+            UserDto user = userDtoServiceImpl.getUserById(userId);
             if (user == null) throw new UserNotFoundException("User not found with ID: " + userId);
 
             return orderDao.getOrdersByUserId(userId);

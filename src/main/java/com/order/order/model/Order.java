@@ -2,26 +2,37 @@ package com.order.order.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Generated;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+
 import java.time.LocalDateTime;
 
 @Data
 @Builder
 @Getter
 public class Order {
+    @Id
+    @Generated
     private Long id;
     private Long userId;
     private Long productId;
+    private String productName;
     private int quantity;
     private LocalDateTime orderDate;
 
-//    Getter Setter
+    public String getProductName() {
+        return productName;
+    }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+//    Getter Setter
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }

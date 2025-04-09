@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class ProductDtoServiceImpl {
     public ProductDto getProductById(Long productId) {
         try {
-            return new RestTemplate().getForObject("http://localhost:8082/products/{id}" + productId, ProductDto.class);
+            return new RestTemplate().getForObject("http://localhost:8082/products/"+productId, ProductDto.class);
         } catch (Exception e) {
             throw new ProductNotFoundException("Product with ID " + productId + " not found.");
         }

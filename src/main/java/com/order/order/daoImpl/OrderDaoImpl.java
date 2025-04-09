@@ -16,10 +16,9 @@ public class OrderDaoImpl implements OrderDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Override
     public void saveOrder(Order order) {
-        String sql = "INSERT INTO orders (user_id, product_id, quantity) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, order.getUserId(), order.getProductId(), order.getQuantity());
+        String sql = "INSERT INTO orders (user_id, product_id,product_name, quantity) VALUES (?, ?, ?,?)";
+        jdbcTemplate.update(sql, order.getUserId(), order.getProductId(),order.getProductName(), order.getQuantity());
     }
 
     @Override
