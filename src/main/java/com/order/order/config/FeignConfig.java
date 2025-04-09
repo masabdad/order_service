@@ -1,5 +1,6 @@
 package com.order.order.config;
 
+import com.order.order.exceptions.TokenNotFoundException;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +21,9 @@ public class FeignConfig {
 
     public static String getCurrentAccessToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof JwtAuthenticationToken) {
-            return ((JwtAuthenticationToken) authentication).getToken().getTokenValue();
+        if (authentication instanceof JwtAuthenticationToken jwtauthenticationtoken) {
+            return jwtauthenticationtoken.getToken().getTokenValue();
         }
-        throw new RuntimeException("Failed to extract token from context");
+        throw new TokenNotFoundException("Failed to extract token from context");
     }
 }
