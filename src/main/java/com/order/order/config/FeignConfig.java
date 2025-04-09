@@ -21,7 +21,6 @@ public class FeignConfig {
     public static String getCurrentAccessToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof JwtAuthenticationToken) {
-            // Extract token value from JwtAuthenticationToken
             return ((JwtAuthenticationToken) authentication).getToken().getTokenValue();
         }
         throw new RuntimeException("Failed to extract token from context");
